@@ -27,6 +27,6 @@ jobs:
       - name: npm install, build and test
         run: |
           npm install
-          npm test
+          ng test --watch=false --code-coverage
        
         
