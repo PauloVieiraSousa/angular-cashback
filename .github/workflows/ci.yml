@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  pull_request:
+    branches: 
+      - master
+      - develop
+  push:
+    branches: 
+      - master
+      - release/*
+      - develop
+jobs:
+  test:
+    name: Test on node 
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        node_version: ['10','12']
+        os: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use node.js ${{ matrix.node_version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node_version }}
+      - name: npm install, build and test
+        run: |
+          npm install
+          npm test
+       
+        
