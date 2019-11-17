@@ -6,20 +6,22 @@
 
       <div class="content">
 
-        <form [formGroup]="formLogin" class="form-login mt-5">
+        <form [formGroup]="formLogin" class="form-login mt-5" (ngSubmit)="onSubmit(formLogin.value)">
 
           <div class="form-group">
             <label>Email</label>
-            <input type="email" class="form-control" formControlName="email" placeholder="exemplo@exemplo.com">
+            <input type="email" class="form-control input-email" required formControlName="email" placeholder="exemplo@exemplo.com">
           </div>
 
           <div class="form-group">
             <label>Senha</label>
-            <input type="password" class="form-control" formControlName="password" placeholder="Senha">
+            <input type="password" class="form-control input-password" required formControlName="password" placeholder="Senha">
           </div>
 
           <div class="actions mt-5">
-            <button type="submit" class="btn btn-primary">Acessar</button>
+            <button type="submit" class="btn btn-primary btn-form-submit" [disabled]="!(formLogin.valid && formLogin.dirty)">
+              Acessar
+            </button>
           </div>
 
         </form>

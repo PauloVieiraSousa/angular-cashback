@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ILogin} from '../../interface/login.interface';
 import {Login} from '../../model/login.model';
 import {AuthenticationService} from '../../service/authentication.service';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -14,32 +15,35 @@ export class LoginComponent implements OnInit {
 
   public formLogin: FormGroup;
   public loading = false;
+  public submitted = false;
 
-  constructor(private formBuilder: FormBuilder, private authenticationService: AuthenticationService) { }
+  constructor(private formBuilder: FormBuilder, private authenticationService: AuthenticationService, private router: Router) { }
 
   ngOnInit() {
-
     this.createForm(new Login());
-
   }
 
   private createForm(login: ILogin): void {
     this.formLogin = this.formBuilder.group({
-      email: [login.email],
-      password: [login.password]
+      email: [login.email, [Validators.required,  Validators.minLength(4)]],
+      password: [login.password, [ Validators.required,   Validators.minLength(8)]]
     });
   }
 
-  public onSubmit(): any {
-    const login: ILogin = new Login();
+  public onSubmit(data: ILogin): any {
+    const payload: ILogin = new Login();
 
-    login.email = this.formLogin.get('email').value;
-    login.password = this.formLogin.get('password').value;
+    payload.email = data.email;
+    payload.password = data.password;
 
     this.loading = true;
-    return this.authenticationService.login(login).subscribe( () => {
-      this.loading = false;
-    });
+    this.submitted = true;
+
+    return this.authenticationService.login(payload).subscribe(
+        () => this.router.navigateByUrl('/dashboard'),
+        () => {},
+        () => this.loading = false
+      );
   }
 
 
