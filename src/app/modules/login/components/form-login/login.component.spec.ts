@@ -62,7 +62,7 @@ describe('LoginComponent', () => {
     component.formLogin.controls.password.setValue(userPassword);
   }
 
-  it('component initial state', ()=>{
+  it('components initial state', () => {
     expect(component).toBeTruthy();
     expect(component.loading).toBeFalsy();
     expect(component.submitted).toBeFalsy();
