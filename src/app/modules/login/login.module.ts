@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginComponent } from './component/form-login/login.component';
-import {ReactiveFormsModule} from '@angular/forms';
-import {AuthenticationService} from './service/authentication.service';
+import { LoginComponent } from './components/form-login/login.component';
+import  {ReactiveFormsModule } from '@angular/forms';
+import { AuthenticationService } from './service/authentication.service';
 import { HttpClientModule } from '@angular/common/http';
-import {BrowserModule} from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
+import { Interceptor } from './interceptor/interceptor';
+import { TokenService } from './service/token.service';
 
 @NgModule({
   declarations: [LoginComponent],
@@ -12,10 +14,12 @@ import {BrowserModule} from '@angular/platform-browser';
     BrowserModule,
     CommonModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    Interceptor
   ],
   providers: [
-    AuthenticationService
+    AuthenticationService,
+    TokenService
   ]
 })
 export class LoginModule { }

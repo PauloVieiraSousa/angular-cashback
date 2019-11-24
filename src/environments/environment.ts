@@ -2,10 +2,17 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+// export const environment = {
+//   production: false,
+//   apiUrl: 'http://5dc7501b317717001434fa69.mockapi.io/api/v1'
+// };
+
 export const environment = {
   production: false,
-  apiUrl: 'http://5dc7501b317717001434fa69.mockapi.io/api/v1'
+  apiUrl: 'https://cashback.free.beeceptor.com/api/v1'
 };
+
+
 
 /*
  * For easier debugging in development mode, you can import the following file
