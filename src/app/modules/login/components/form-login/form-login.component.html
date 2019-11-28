@@ -1,5 +1,5 @@
-<div class="login d-flex justify-content-center align-items-center">
-  <div class="card w-50">
+<div class="login-form d-flex justify-content-center align-items-center">
+  <div class="card card col-md-4">
     <div class="card-body">
 
       <h5 class="text-center p-2">Login</h5>
@@ -18,11 +18,16 @@
             <input type="password" class="form-control input-password" required formControlName="password" placeholder="Senha">
           </div>
 
-          <div class="actions row col-md-12 mt-4 ml-0 mr-0 justify-content-end">
+          <div class="actions col-md-12 d-flex flex-column  justify-content-center mt-4">
 
-              <button type="submit" class="btn btn-primary btn-form-submit" [disabled]="!(formLogin.valid && formLogin.dirty)">
+              <button type="submit" class="btn btn-success btn-form-submit mb-5" [disabled]="!(formLogin.valid && formLogin.dirty)">
                 Acessar
               </button>
+
+              <p class="text-center mb-0">Não é revendedor?</p>
+              <a class="btn btn-link btn-form-submit" routerLink="/login/register">
+                Criar uma conta
+              </a>
 
           </div>
 

@@ -1,0 +1,48 @@
+<div class="form-register d-flex justify-content-center align-items-center">
+  <div class="card col-10 col-md-4 col-sm-10">
+    <div class="card-body">
+
+      <h5 class="text-center p-2">Cadastro Revendedor</h5>
+
+      <div class="content">
+
+        <form [formGroup]="formRegister" class="form-login form-row mt-5 ml-0 mr-0" (ngSubmit)="onSubmit(formRegister.value)">
+
+          <div class="form-group row col-md-12 ml-0 mr-0">
+            <label>Nome</label>
+            <input type="text" class="form-control input-fullname" required formControlName="fullname" placeholder="Nome Completo">
+          </div>
+
+          <div class="form-group row col-md-12 ml-0 mr-0">
+            <label>CPF</label>
+            <input type="text" class="form-control input-cpf" required formControlName="cpf" mask="000.000.000-99" placeholder="221.523.046-85">
+          </div>
+
+          <div class="form-group row col-md-12 ml-0 mr-0">
+            <label>Email</label>
+            <input type="email" class="form-control input-email" required formControlName="email" placeholder="exemplo@exemplo.com">
+          </div>
+
+          <div class="form-group row col-md-12 ml-0 mr-0">
+            <label>Senha</label>
+            <input type="password" class="form-control input-password" required formControlName="password" placeholder="Password">
+          </div>
+
+          <div class="actions col-md-12 mt-4 ml-0 mr-0 d-flex flex-column justify-content-center">
+
+              <button type="submit" class="btn btn-success btn-form-submit mb-md-5" [disabled]="!(formRegister.valid && formRegister.dirty)">
+                Cadastrar revendedor
+              </button>
+
+              <p class="text-center mb-0">Já possui uma conta?</p>
+              <a class="btn btn-link mb-0" routerLink="/login/access">
+                Login
+              </a>
+
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

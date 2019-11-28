@@ -3,7 +3,7 @@ import {fakeAsync, TestBed, getTestBed, inject} from '@angular/core/testing';
 import { AuthenticationService } from './authentication.service';
 
 import { HttpClientTestingModule, HttpTestingController } from  '@angular/common/http/testing';
-import {ILogin} from '../interface/login.interface';
+import {IPerson} from '../interface/person.interface';
 import {environment} from '../../../../environments/environment';
 import {TokenService} from './token.service';
 
@@ -37,7 +37,7 @@ describe('AuthenticationService', () => {
   });
 
   it('should return an Observable <User>', () => {
-    const payload: ILogin = {password: 'abc123', email: 'paulo@gmail.com'};
+    const payload: IPerson = {password: 'abc123', email: 'paulo@gmail.com'};
     const dummyUser = {token: 'fake-token-jwt'};
 
     service.login(payload).subscribe((user) => {

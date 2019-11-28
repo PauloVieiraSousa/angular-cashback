@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ILogin} from '../../interface/login.interface';
-import {Login} from '../../model/login.model';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {IPerson} from '../../interface/person.interface';
+import {LoginModel as Login} from '../../model/login.model';
 import {AuthenticationService} from '../../service/authentication.service';
 import {Router} from '@angular/router';
 
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  templateUrl: './form-login.component.html',
+  styleUrls: ['./form-login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class FormLoginComponent implements OnInit {
 
   public formLogin: FormGroup;
   public loading = false;
@@ -23,15 +23,15 @@ export class LoginComponent implements OnInit {
     this.createForm(new Login());
   }
 
-  private createForm(login: ILogin): void {
+  private createForm(login: Login): void {
     this.formLogin = this.formBuilder.group({
       email: [login.email, [Validators.required,  Validators.minLength(4)]],
       password: [login.password, [ Validators.required,   Validators.minLength(8)]]
     });
   }
 
-  public onSubmit(data: ILogin): any {
-    const payload: ILogin = new Login();
+  public onSubmit(data: IPerson): any {
+    const payload: Login = new Login();
 
     payload.email = data.email;
     payload.password = data.password;

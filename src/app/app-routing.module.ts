@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {LoginComponent} from './modules/login/components/form-login/login.component';
 
 
-const routes: Routes = [
-  { path: '', component: LoginComponent }
+export const routes: Routes = [
+  { path: '', redirectTo: 'login', pathMatch: 'full'},
+  { path: 'login', loadChildren: './modules/login/login.module#LoginModule'}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { enableTracing: false } )],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
