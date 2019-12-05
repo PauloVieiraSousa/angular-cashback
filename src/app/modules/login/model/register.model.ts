@@ -1,6 +1,8 @@
 import {IPerson} from '../interface/person.interface';
 
-export class LoginModel implements IPerson {
+export class RegisterModel implements IPerson {
+  fullname: string;
+  cpf: string;
   email: string;
   password: string;
 }

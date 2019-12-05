@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 
-import { LoginComponent } from './login.component';
+import { FormLoginComponent } from './form-login.component';
 import {CommonModule} from '@angular/common';
 import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
 import {AuthenticationService} from '../../service/authentication.service';
@@ -24,17 +24,17 @@ const blankUser = {
 };
 
 
-describe('LoginComponent', () => {
+describe('FormLoginComponent', () => {
 
-  let component: LoginComponent;
-  let fixture: ComponentFixture<LoginComponent>;
+  let component: FormLoginComponent;
+  let fixture: ComponentFixture<FormLoginComponent>;
   let AuthenticateSpy;
 
 
   beforeEach(async(() => {
 
     TestBed.configureTestingModule({
-      declarations: [ LoginComponent ],
+      declarations: [ FormLoginComponent ],
       imports: [
         CommonModule,
         ReactiveFormsModule,
@@ -52,7 +52,7 @@ describe('LoginComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoginComponent);
+    fixture = TestBed.createComponent(FormLoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
