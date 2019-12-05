@@ -4,6 +4,7 @@ import {IPerson} from '../../interface/person.interface';
 import {LoginModel as Login} from '../../model/login.model';
 import {AuthenticationService} from '../../service/authentication.service';
 import {Router} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
 
 
 @Component({
@@ -17,7 +18,10 @@ export class FormLoginComponent implements OnInit {
   public loading = false;
   public submitted = false;
 
-  constructor(private formBuilder: FormBuilder, private authenticationService: AuthenticationService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder,
+              private authenticationService: AuthenticationService,
+              private router: Router,
+              private toastr: ToastrService) { }
 
   ngOnInit() {
     this.createForm(new Login());
@@ -40,8 +44,11 @@ export class FormLoginComponent implements OnInit {
     this.submitted = true;
 
     return this.authenticationService.login(payload).subscribe(
-        () => this.router.navigateByUrl('/dashboard'),
-        () => {},
+        () => {
+          this.toastr.success('User successfully logged in', 'Login');
+          this.router.navigateByUrl('/dashboard');
+        },
+        () => this.toastr.error('User not authorized', 'Login'),
         () => this.loading = false
       );
   }

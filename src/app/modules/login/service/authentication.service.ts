@@ -26,10 +26,10 @@ export class AuthenticationService {
 
 
   public register(payload: IPerson): Observable<boolean>{
-    return this.http.put<boolean>(`${environment.apiUrl}/register`, { payload })
-      .pipe( status => {
-        return status;
-      });
+    return this.http.post<boolean>(`${environment.apiUrl}/register`, { payload })
+      .pipe( map(result => {
+        return result;
+      }));
   }
 
 }

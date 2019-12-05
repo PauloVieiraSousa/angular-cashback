@@ -4,6 +4,10 @@ import {RegisterModel as Register} from '../../model/register.model';
 import {IPerson} from '../../interface/person.interface';
 import { Location } from '@angular/common';
 import {AuthenticationService} from '../../service/authentication.service';
+import {Observable, Subscription} from 'rxjs';
+import {ToastrService} from 'ngx-toastr';
+import {Router} from '@angular/router';
+
 
 @Component({
   selector: 'app-form-register',
@@ -13,8 +17,13 @@ import {AuthenticationService} from '../../service/authentication.service';
 export class FormRegisterComponent implements OnInit {
 
   public formRegister: FormGroup;
+  public loading = false;
 
-  constructor(private formBuilder: FormBuilder, private location: Location, private authenticationService: AuthenticationService) { }
+  constructor(private formBuilder: FormBuilder,
+              private location: Location,
+              private authenticationService: AuthenticationService,
+              private toast: ToastrService,
+              private router: Router) { }
 
   ngOnInit() {
 
@@ -36,11 +45,16 @@ export class FormRegisterComponent implements OnInit {
   }
 
 
-  public onSubmit(data: IPerson): void {
-    this.authenticationService.register(data).subscribe(
-      () => this.resetForm(),
-      () => {},
-      () => {});
+  public onSubmit(data: IPerson): Subscription {
+    this.loading = true;
+    return this.authenticationService.register(data).subscribe(
+      () => {
+        this.toast.success('Registered person', 'Register');
+        this.resetForm();
+        this.router.navigateByUrl('/login/access');
+      },
+      () => this.toast.error('Error in registered person', 'Register'),
+      () => this.loading = false);
   }
 
 
