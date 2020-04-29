@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {IPerson} from '../interface/person.interface';
 import {environment} from '../../../../environments/environment';
@@ -15,7 +15,7 @@ export class AuthenticationService {
 
   public login(payload: IPerson): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/auth`, { payload })
-      .pipe(map(user => {
+      .pipe(tap(user => {
           if (user && user.token) {
             this.tokenService.setAccessToken(user.token);
           }

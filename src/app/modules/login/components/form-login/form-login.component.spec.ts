@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed, fakeAsync, tick} from '@angular/core/testing';
 
 import { FormLoginComponent } from './form-login.component';
 import {CommonModule} from '@angular/common';
@@ -7,15 +7,17 @@ import {AuthenticationService} from '../../service/authentication.service';
 import {HttpClientModule} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {of} from 'rxjs';
+import {ToastrService} from 'ngx-toastr';
 
 
 const formBuilder: FormBuilder = new FormBuilder();
 const authenticationServiceSpy = jasmine.createSpyObj('AuthenticationService', ['login']);
 const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
+const toastrServiceSpy = jasmine.createSpyObj('ToastrService', ['success']);
 
 const validUser = {
   email: 'example@example.com',
-  password: 'abc123'
+  password: 'defgh123'
 };
 
 const blankUser = {
@@ -28,7 +30,7 @@ describe('FormLoginComponent', () => {
 
   let component: FormLoginComponent;
   let fixture: ComponentFixture<FormLoginComponent>;
-  let AuthenticateSpy;
+  let authenticateSpy;
 
 
   beforeEach(async(() => {
@@ -43,12 +45,12 @@ describe('FormLoginComponent', () => {
       providers: [
         {provide: AuthenticationService, useValue: authenticationServiceSpy },
         {provide: Router, useValue: routerSpy},
-        {provide: FormBuilder, useValue: formBuilder}
+        {provide: FormBuilder, useValue: formBuilder},
+        {provide: ToastrService, useValue: toastrServiceSpy}
       ]
     }).compileComponents();
 
-    AuthenticateSpy = authenticationServiceSpy.login.and.returnValue(of({token: 'jwt-token-fake'}));
-
+    authenticateSpy = authenticationServiceSpy.login.and.returnValue(of({token: 'jwt-token-fake'}));
   }));
 
   beforeEach(() => {
@@ -111,7 +113,7 @@ describe('FormLoginComponent', () => {
 
   it('must call onSubmit method with a valid user', fakeAsync (() => {
     component.onSubmit(validUser);
-    expect(component.submitted).toBeTruthy();
+    expect(component.submitted).toBe(true);
   }));
 
 
@@ -126,18 +128,19 @@ describe('FormLoginComponent', () => {
   });
 
 
-  it('should route to dashboard if authentication with success', () => {
-    fixture.componentInstance.formLogin.controls.email.setValue(validUser.email);
-    fixture.componentInstance.formLogin.controls.password.setValue(validUser.password);
-    fixture.detectChanges();
-
-    const submitButton = fixture.debugElement.nativeElement.querySelector('.btn-form-submit');
-    submitButton.click();
-    fixture.detectChanges();
-
+  it('should route to dashboard if authentication with success', fakeAsync (() => {
+    component.onSubmit(validUser);
+    advance(fixture);
+    authenticateSpy = authenticationServiceSpy.login.and.returnValue(Promise.resolve({token: 'jwt-token-fake'}));
+    advance(fixture);
     expect(routerSpy.navigateByUrl).toHaveBeenCalled();
-    const navArgs = routerSpy.navigateByUrl.calls.first().args[0];
-    expect(navArgs).toBe('/dashboard', 'should nav to dashboard');
-  });
+    expect(routerSpy.navigateByUrl.calls.first().args[0]).toBe('/dashboard', 'should nav to dashboard');
+  }));
+
+
+  function advance( fix: ComponentFixture<any>) {
+    tick();
+    fix.detectChanges();
+  }
 
 });
